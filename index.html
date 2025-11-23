@@ -1,43 +1,165 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <title>我的第一個 GitHub 網頁</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background: #333;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        .content {
-            max-width: 700px;
-            margin: 40px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英文單字網頁</title>
+<style>
+    body {
+        margin: 0;
+        display: flex;
+        font-family: Arial, sans-serif;
+    }
+    /* 左側選單 */
+    #sidebar {
+        width: 220px;
+        background: #2c3e50;
+        color: white;
+        height: 100vh;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    #sidebar h2 {
+        margin-top: 0;
+    }
+    #sidebar button {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        padding: 12px;
+        background: #34495e;
+        color: white;
+        border: none;
+        cursor: pointer;
+        text-align: left;
+    }
+    #sidebar button:hover {
+        background: #3d566e;
+    }
+
+    /* 右側內容頁 / 切換顯示 */
+    #content {
+        flex: 1;
+        padding: 20px;
+    }
+    .page {
+        display: none;
+    }
+    .active {
+        display: block;
+    }
+
+    /* 基本表單樣式 */
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+    .btn {
+        padding: 10px 20px;
+        background: #2980b9;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+</style>
 </head>
 <body>
-    <header>
-        <h1>歡迎來到我的 GitHub Pages 網站！</h1>
-    </header>
 
-    <div class="content">
-        <h2>這是我的第一個網頁 🎉</h2>
-        <p>如果你看到這個畫面，代表你已經成功部署 GitHub Pages！</p>
+<!-- 左側選單 -->
+<div id="sidebar">
+    <h2>單字工具</h2>
+    <button onclick="showPage('home')">🏠 首頁</button>
+    <button onclick="showPage('search')">🔍 搜尋</button>
+    <button onclick="showPage('add')">➕ 新增單字</button>
+    <button onclick="showPage('test')">📝 測驗</button>
+</div>
 
-        <p>這裡是你的內容，你可以隨便更改文字或加上按鈕、圖片、功能。</p>
+<!-- 右側內容 -->
+<div id="content">
 
-        <button onclick="alert('你按下按鈕了！')">點擊我</button>
+    <!-- 首頁 -->
+    <div id="home" class="page active">
+        <h1>首頁</h1>
+        <p>歡迎使用英文單字工具。</p>
     </div>
+
+    <!-- 搜尋頁 -->
+    <div id="search" class="page">
+        <h1>搜尋單字</h1>
+        <input type="text" id="searchInput" placeholder="輸入要搜尋的字">
+        <button class="btn" onclick="searchWord()">搜尋</button>
+
+        <h3>結果：</h3>
+        <div id="searchResult"></div>
+    </div>
+
+    <!-- 新增頁 -->
+    <div id="add" class="page">
+        <h1>新增單字</h1>
+        <input id="word" placeholder="單字">
+        <input id="pos" placeholder="詞性">
+        <input id="def" placeholder="定義 / 翻譯">
+        <textarea id="example" placeholder="例句"></textarea>
+        <button class="btn" onclick="addWord()">加入單字</button>
+
+        <div id="addResult"></div>
+    </div>
+
+    <!-- 測驗頁 -->
+    <div id="test" class="page">
+        <h1>測驗</h1>
+        <p id="testQuestion"></p>
+
+        <input id="answerInput" placeholder="輸入答案">
+        <button class="btn" onclick="submitAnswer()">送出</button>
+
+        <div id="testFeedback"></div>
+    </div>
+
+</div>
+
+<script>
+// 切換頁面功能
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+// 假資料，用來示範
+let vocab = [
+    {word: "apple", def: "蘋果"},
+    {word: "big", def: "大的"},
+];
+
+// 搜尋功能
+function searchWord() {
+    let txt = document.getElementById("searchInput").value.toLowerCase();
+    let result = vocab.filter(v => v.word.includes(txt));
+
+    document.getElementById("searchResult").innerHTML =
+        result.length
+        ? result.map(v => `<p><b>${v.word}</b> - ${v.def}</p>`).join("")
+        : "找不到資料";
+}
+
+// 新增功能
+function addWord() {
+    let w = document.getElementById("word").value;
+    let def = document.getElementById("def").value;
+
+    vocab.push({ word: w, def: def });
+
+    document.getElementById("addResult").innerText = "已新增！";
+}
+
+// 測驗功能（非常簡化版示範）
+function submitAnswer() {
+    let ans = document.getElementById("answerInput").value;
+    document.getElementById("testFeedback").innerText = "你的答案：" + ans;
+}
+</script>
+
 </body>
 </html>
