@@ -1,3 +1,8 @@
+//fetch
+fetch("vocab.json")
+  .then(res => res.json())
+  .then(json => console.log("本地 vocab:", json));
+
 // 初始化 Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
