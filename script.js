@@ -61,6 +61,10 @@ loginBtn.onclick = () => {
   auth.signInWithPopup(provider);
 };
 
+test.onclick = () => {
+    uploadVocabToFirebase();
+}
+
 // 登出
 logoutBtn.onclick = () => auth.signOut();
 
