@@ -8,6 +8,47 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+// 臨時輸入
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+async function uploadVocabToFirebase() {
+
+    // 🔥 1. 從 GitHub 抓 vocabulary.json
+    const vocabUrl = "https://raw.githubusercontent.com/emmetthor/Vocabulary_Archive/refs/heads/main/vocab.json";
+    const response = await fetch(vocabUrl);
+    const vocabList = await response.json();
+
+    const uid = auth.currentUser.uid;
+
+    // 🔥 2. 一筆一筆上傳到 Firestore
+    for (const item of vocabList) {
+
+        // 建議用 "word" 當 Firestore 文件 ID
+        const word = item.word;
+
+        if (word === "") continue; // ⛔ 跳過空字
+
+        await setDoc(
+            doc(db, "users", uid, "vocab", word),
+            {
+                definition: item.definition || "",
+                example: item.example || "",
+                partsOfSpeech: item["parts-of-speech"] || "",
+                testCount: item["test-count"] ?? 0,
+
+                // 保留 flashcard 欄位
+                front: item.front || "",
+                back: item.back || "",
+                main: item.main || "",
+
+                createdAt: Date.now()
+            }
+        );
+    }
+
+    console.log("✔ vocab.json 已成功上傳到 Firebase！");
+}
+
 // DOM
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
