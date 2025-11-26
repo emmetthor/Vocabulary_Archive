@@ -6,25 +6,16 @@
 </head>
 <body>
 
-  <button id="test">push</button>
-
-  <h1>Vocabulary App</h1>
-
-  <!-- 登入/登出 -->
-  <button id="loginBtn">Google 登入</button>
-  <button id="logoutBtn" style="display:none;">登出</button>
-
-  <p id="userInfo"></p>
+  <button id="loginBtn">登入 Google</button>
+  <button id="logoutBtn" style="display:none">登出</button>
+  <button id="uploadBtn">上傳 vocab.json</button>
+  <p id="userInfo">尚未登入</p>
+  <ul id="vocabList"></ul>
 
   <hr>
 
   <!-- 顯示使用者自己的單字 -->
   <h2>你的單字</h2>
-  <ul id="vocabList"></ul>
-
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
   <script src="firebase-config.js"></script>
   <script type="module" src="script.js"></script>
