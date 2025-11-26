@@ -62,7 +62,8 @@ loginBtn.onclick = () => {
 };
 
 test.onclick = () => {
-    uploadVocabToFirebase();
+  console.log("here");
+  //uploadVocabToFirebase();
 };
 
 // 登出
